@@ -18,7 +18,8 @@ RUN apt-get update \
 	libssl-dev \
 	openssl unzip \
 	wget \
-	zlib1g-dev
+	zlib1g-dev \
+	git
 
 # Lua build
 COPY ./scripts/build-lua /tmp/build-lua
@@ -77,10 +78,10 @@ ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
 
 # Install openresty, lua, then clean up file system
 RUN apt-get update \
-	&& apt-get install -y gcc make socat \
+	&& apt-get install -y gcc make socat git \
 	&& /tmp/install-lua \
 	&& /tmp/install-openresty \
-	&& apt-get remove -y make gcc \
+	&& apt-get remove -y make gcc git \
 	&& apt-get autoremove -y \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
